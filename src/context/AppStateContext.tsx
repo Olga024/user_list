@@ -7,7 +7,7 @@ export type TUser = {
 
 type TAppStateContext = {
     loggedUser: TUser | null,
-    setLoggedUser: (user: TUser) => void,
+    setLoggedUser: (user: TUser | null) => void,
     isCheckingAuth: boolean,
 }
 
@@ -17,6 +17,7 @@ const Context = createContext<TAppStateContext>(null);
 export const AppStateProvider = ({ children }: { children: ReactNode }) => {
     const [loggedUser, setLoggedUser] = useState<TAppStateContext['loggedUser']>(null);
     const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+    
     useEffect(() => {
         const accessToken = window.localStorage.getItem('accessToken');
         if (accessToken) {
