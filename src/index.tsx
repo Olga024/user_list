@@ -5,17 +5,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AppStateProvider } from './context/AppStateContext';
+import { QueryProvider } from './providers/QueryProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <AppStateProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AppStateProvider>
+    <QueryProvider>
+      <AppStateProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AppStateProvider>
+    </QueryProvider>
   </React.StrictMode>
 );
 

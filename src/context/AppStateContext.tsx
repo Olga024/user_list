@@ -1,13 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
-type TUser = {
+export type TUser = {
     login: string,
     password: string,
 }
 
 type TAppStateContext = {
     loggedUser: TUser | null,
-    setLoggedUser: (user: TUser) => void
+    setLoggedUser: (user: TUser) => void,
+    isCheckingAuth: boolean,
 }
 
 // @ts-expect-error
@@ -15,17 +16,19 @@ const Context = createContext<TAppStateContext>(null);
 
 export const AppStateProvider = ({ children }: { children: ReactNode }) => {
     const [loggedUser, setLoggedUser] = useState<TAppStateContext['loggedUser']>(null);
-
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
     useEffect(() => {
         const accessToken = window.localStorage.getItem('accessToken');
         if (accessToken) {
             setLoggedUser({ login: 'admin', password: 'admin' });
         }
+        setIsCheckingAuth(false);
     }, []);
 
     return <Context.Provider value={{
         loggedUser,
         setLoggedUser,
+        isCheckingAuth,
     }}>
         {children}
     </Context.Provider>

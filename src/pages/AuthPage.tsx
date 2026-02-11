@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { AuthForm } from "../components/AuthForm"
+import { useNavigate } from "react-router-dom";
+import { useAppStateContext } from "../context/AppStateContext";
+import { useEffect } from "react";
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -9,6 +12,15 @@ const CenteredContainer = styled.div`
 `;
 
 export const AuthPage = () => {
+    const navigate = useNavigate();
+    const { loggedUser } = useAppStateContext();
+
+    useEffect(() => {
+        if (loggedUser) {
+            navigate('/users', { replace: true });
+        }
+    }, [loggedUser, navigate]);
+
     return <CenteredContainer>
         <AuthForm />
     </CenteredContainer>
