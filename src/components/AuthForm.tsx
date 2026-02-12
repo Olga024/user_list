@@ -1,9 +1,10 @@
 import { Button, Form, Input, notification } from "antd";
 import Title from "antd/es/typography/Title";
-import { TUser, useAppStateContext } from "../context/AppStateContext";
+import { useAppStateContext } from "../context/AppStateContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { authenticate } from "../services/authService";
+import { TUser } from "../types/auth";
 
 export const AuthForm = () => {
   const [form] = Form.useForm();

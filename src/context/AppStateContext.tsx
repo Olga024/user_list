@@ -1,9 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-
-export type TUser = {
-    login: string,
-    password: string,
-}
+import { TUser } from "../types/auth";
 
 type TAppStateContext = {
     loggedUser: TUser | null,
