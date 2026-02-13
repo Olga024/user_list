@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input, Button, Popconfirm } from 'antd';
+import { Modal, Form, Input, Button, Popconfirm, Space } from 'antd';
 import { TUserData, UpdateUserData } from '../types/user';
 import { userService } from '../services/userService';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -51,7 +51,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ user, open, onClos
 
     return (
         <Modal
-            title="Редактировать пользователя"
+            title="Редактирование пользователя"
             open={open}
             onCancel={updateMutation.isPending || deleteMutation.isPending ? undefined : onClose}
             footer={null}
@@ -59,7 +59,7 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ user, open, onClos
             maskClosable={!(updateMutation.isPending || deleteMutation.isPending)}
         >
             <Form form={form} onFinish={onFinish} layout="vertical">
-                <Form.Item label="ID" name="id">
+                <Form.Item label="id" name="id">
                     <Input disabled placeholder={user?.id?.toString() || ''} />
                 </Form.Item>
 
@@ -67,7 +67,6 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ user, open, onClos
                     label="Имя"
                     name="name"
                     rules={[
-                        { required: true, message: 'Введите имя!' },
                         { min: 2, message: 'Имя должно быть не менее 2 символов' },
                     ]}
                 >
@@ -75,10 +74,9 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ user, open, onClos
                 </Form.Item>
 
                 <Form.Item
-                    label="Ссылка на аватар"
+                    label="Ссылка на аватарку"
                     name="avatar"
                     rules={[
-                        { required: true, message: 'Введите ссылку на аватар!' },
                         {
                             pattern: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))(?:\?.*)?$/,
                             message: 'Введите корректную ссылку на изображение',
@@ -87,47 +85,43 @@ export const EditUserModal: React.FC<EditUserModalProps> = ({ user, open, onClos
                 >
                     <Input placeholder="https://example.com/avatar.png" />
                 </Form.Item>
+                <Form.Item style={{ marginBottom: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Popconfirm
+                            title="Удалить пользователя?"
+                            description="Это действие нельзя отменить"
+                            onConfirm={handleDelete}
+                            okText="Да"
+                            cancelText="Нет"
+                            disabled={deleteMutation.isPending}
+                        >
+                            <Button
+                                type="primary"
+                                loading={deleteMutation.isPending}
+                                disabled={updateMutation.isPending || deleteMutation.isPending}
+                            >
+                                Удалить
+                            </Button>
+                        </Popconfirm>
 
-                <Form.Item
-                    style={{
-                        marginBottom: 0,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Popconfirm
-                        title="Удалить пользователя?"
-                        description="Это действие нельзя отменить"
-                        onConfirm={handleDelete}
-                        okText="Да"
-                        cancelText="Нет"
-                        disabled={deleteMutation.isPending}
-                    >
-                        <Button
-                            danger
-                            loading={deleteMutation.isPending}
-                            disabled={updateMutation.isPending || deleteMutation.isPending}
-                        >
-                            Удалить
-                        </Button>
-                    </Popconfirm>
+                        <Space>
 
-                    <div style={{ display: 'flex', gap: 8 }}>
-                        <Button
-                            onClick={onClose}
-                            disabled={updateMutation.isPending || deleteMutation.isPending}
-                        >
-                            Отмена
-                        </Button>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            loading={updateMutation.isPending}
-                            disabled={updateMutation.isPending || deleteMutation.isPending}
-                        >
-                            Сохранить
-                        </Button>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                loading={updateMutation.isPending}
+                                disabled={updateMutation.isPending || deleteMutation.isPending}
+                            >
+                                Сохранить
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={onClose}
+                                disabled={updateMutation.isPending || deleteMutation.isPending}
+                            >
+                                Отмена
+                            </Button>
+                        </Space>
                     </div>
                 </Form.Item>
             </Form>

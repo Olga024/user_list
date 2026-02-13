@@ -24,7 +24,7 @@ export const AuthForm = () => {
       notification.error({
         message: 'Ошибка авторизации',
         description: error.message,
-        duration: 3,
+        duration: 10,
       });
     },
   });

@@ -36,10 +36,9 @@ export const AppBar = () => {
             <Space>
                 <Button
                     type="primary"
-                    icon={<LogoutOutlined />}
                     onClick={handleLogout}
                 >
-                    Выйти
+                    Выход
                 </Button>
             </Space>
         </Header>

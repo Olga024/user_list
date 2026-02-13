@@ -1,9 +1,8 @@
 import React from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, Space } from 'antd';
 import { CreateUserData } from '../types/user';
 import { userService } from '../services/userService';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 
 interface CreateUserModalProps {
     open: boolean;
@@ -29,7 +28,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ open, onClose 
 
     return (
         <Modal
-            title="Создать пользователя"
+            title="Создание пользователя"
             open={open}
             onCancel={createMutation.isPending ? undefined : onClose}
             footer={null}
@@ -41,7 +40,6 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ open, onClose 
                     label="Имя"
                     name="name"
                     rules={[
-                        { required: true, message: 'Введите имя!' },
                         { min: 2, message: 'Имя должно быть не менее 2 символов' },
                     ]}
                 >
@@ -49,10 +47,9 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ open, onClose 
                 </Form.Item>
 
                 <Form.Item
-                    label="Ссылка на аватар"
+                    label="Ссылка на аватарку"
                     name="avatar"
                     rules={[
-                        { required: true, message: 'Введите ссылку на аватар!' },
                         {
                             pattern: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))(?:\?.*)?$/,
                             message: 'Введите корректную ссылку на изображение',
@@ -61,19 +58,24 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({ open, onClose 
                 >
                     <Input placeholder="https://example.com/avatar.png" />
                 </Form.Item>
-
                 <Form.Item style={{ marginBottom: 0, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                    <Button onClick={onClose} disabled={createMutation.isPending}>
-                        Отмена
-                    </Button>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        loading={createMutation.isPending}
-                        disabled={createMutation.isPending}
-                    >
-                        Создать
-                    </Button>
+                    <Space size={8}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            loading={createMutation.isPending}
+                            disabled={createMutation.isPending}
+                        >
+                            Создать
+                        </Button>
+                        <Button
+                            onClick={onClose}
+                            disabled={createMutation.isPending}
+                            type="primary"
+                        >
+                            Отмена
+                        </Button>
+                    </Space>
                 </Form.Item>
             </Form>
         </Modal>

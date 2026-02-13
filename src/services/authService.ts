@@ -12,7 +12,6 @@ export const authenticate = async (data: { login: string; password: string }): P
   });
 };
 
-// Для axios (если нужно реальное API)
 export const apiClient = axios.create({
   baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
